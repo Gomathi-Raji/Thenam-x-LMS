@@ -17,7 +17,11 @@ export async function createTimetable(req, res) {
 
   const entry = await createTimetableEntry(req.body);
   publishDomainEvent("timetable.created", {
+    resource: "timetable",
+    action: "created",
     class_id: entry.class_id,
+    teacher_id: entry.teacher_id,
+    rooms: ["role:admin", `class:${entry.class_id}`, `teacher:${entry.teacher_id}`],
     timetable: entry,
   });
   return created(res, entry);

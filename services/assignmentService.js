@@ -1,6 +1,8 @@
 import { Assignment } from "../models/Assignment.js";
+import { Parent } from "../models/Parent.js";
 import { Student } from "../models/Student.js";
 import { Submission } from "../models/Submission.js";
+import { Mapping } from "../models/Mapping.js";
 import { publishDomainEvent } from "../server/events/domainEvents.js";
 
 function generateAssignmentId() {
@@ -49,8 +51,28 @@ export async function createAssignment(payload) {
 
   const createdAssignment = assignment.toObject();
 
+  const [teacherMapping, students] = await Promise.all([
+    Mapping.findOne({ class_id: createdAssignment.class_id }, { _id: 0 }).lean(),
+    Student.find({ class_id: createdAssignment.class_id }, { _id: 0 }).lean(),
+  ]);
+
+  const parents = students.length
+    ? await Parent.find({ student_id: { $in: students.map((student) => student.student_id) } }, { _id: 0 }).lean()
+    : [];
+
+  const rooms = [
+    "role:admin",
+    `class:${createdAssignment.class_id}`,
+    teacherMapping?.teacher_id ? `teacher:${teacherMapping.teacher_id}` : null,
+    ...students.map((student) => `student:${student.student_id}`),
+    ...parents.map((parent) => `parent:${parent.parent_id}`),
+  ].filter(Boolean);
+
   publishDomainEvent("assignment.created", {
+    resource: "assignments",
+    action: "created",
     class_id: createdAssignment.class_id,
+    rooms,
     assignment: createdAssignment,
   });
 

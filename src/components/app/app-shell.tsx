@@ -4,6 +4,7 @@ import { useRouterState } from "@tanstack/react-router";
 import { AppSidebar, SidebarContent } from "./sidebar";
 import { TopBar } from "./topbar";
 import { RoleProvider } from "./role-context";
+import { RealtimeSync } from "./realtime-sync";
 import {
   Sheet,
   SheetContent,
@@ -18,7 +19,7 @@ function Shell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.12),transparent_32%),radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_28%),linear-gradient(to_bottom,rgba(255,255,255,0.08),transparent_18%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(16,185,129,0.12),transparent_30%),linear-gradient(to_bottom,rgba(255,255,255,0.02),transparent_20%)]" />
       <div className="pointer-events-none absolute left-0 top-24 h-72 w-72 rounded-full bg-brand-500/10 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-40 h-80 w-80 rounded-full bg-success/10 blur-3xl" />
@@ -66,6 +67,7 @@ function Shell({ children }: { children: ReactNode }) {
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <RoleProvider>
+      <RealtimeSync />
       <Shell>{children}</Shell>
     </RoleProvider>
   );
