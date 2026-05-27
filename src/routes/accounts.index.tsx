@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, BadgeCheck, Clock3, ReceiptText, Sparkles, Wallet } from "lucide-react";
 import { AreaChart, Area, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Card, PageHeader, SectionTitle, StatCard, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
 
 export const Route = createFileRoute("/accounts/")({
   head: () => ({ meta: [{ title: "Accounts Dashboard — AetherLMS" }] }),
@@ -33,12 +33,32 @@ function AccountsDashboardPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Revenue collected" value="$128k" delta="+12%" icon={Wallet} sparkline={[76, 78, 81, 83, 85, 88, 91]} caption="Revenue has accelerated in the current cycle." />
-        <StatCard label="Pending fees" value="$14k" delta="-8%" deltaTone="positive" icon={Clock3} sparkline={[20, 19, 18, 17, 16, 15, 14]} caption="Overdue balance is gradually shrinking." />
-        <StatCard label="Verified payments" value="94%" delta="+3" icon={BadgeCheck} sparkline={[86, 87, 88, 90, 91, 93, 94]} caption="Most transactions now pass instant validation." />
-        <StatCard label="Receipts issued" value="248" delta="Today" icon={ReceiptText} sparkline={[150, 165, 180, 195, 210, 225, 248]} caption="Printable receipts are moving fast this week." />
-      </div>
+      <Card className="p-5">
+        <SectionTitle action={<Badge tone="brand">Shortcuts</Badge>} description="The finance workspace works better when the next action is obvious.">
+          Finance shortcuts
+        </SectionTitle>
+        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-3">
+            {[
+              "Record a payment and issue a receipt",
+              "Send overdue reminders to parents",
+              "Export the ledger for reconciliation",
+            ].map((item) => (
+              <div key={item} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+            <p className="text-sm font-semibold text-foreground">Ledger watch</p>
+            <ul className="space-y-2 text-sm leading-6 text-muted-foreground">
+              <li>Prioritize overdue recovery before new entries.</li>
+              <li>Keep UPI transaction IDs visible for audits.</li>
+              <li>Use the export action when reconciliation is due.</li>
+            </ul>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <Card>

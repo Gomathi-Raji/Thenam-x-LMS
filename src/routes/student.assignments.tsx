@@ -25,11 +25,23 @@ function StudentAssignmentsPage() {
         actions={<Badge tone="brand">{assignments?.length ?? 0} items</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Total tasks" value={String(assignments?.length ?? 0)} delta="This week" icon={KanbanSquare} sparkline={[1, 2, 3, 4, 5, 5, 6]} caption="All active assignments across your classes." />
         <StatCard label="Pending" value={String(pending.length)} delta="Focus now" deltaTone="warning" icon={Clock3} sparkline={[3, 3, 3, 2, 2, 2, 2]} caption="These need priority this week." />
-        <StatCard label="Submitted" value={String(submitted.length)} delta="Done" deltaTone="positive" icon={FileCheck2} sparkline={[1, 2, 2, 3, 3, 4, 4]} caption="Completed work is moving steadily." />
-        <StatCard label="AI study tip" value="Review" icon={Sparkles} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="Short revision sessions before each deadline are best." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Focus</Badge>} description="One small plan beats a large list that is hard to start.">
+            Study lane
+          </SectionTitle>
+          <div className="space-y-3">
+            {pending.slice(0, 3).map((assignment) => (
+              <div key={`lane-${assignment.assignment_id}`} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
+                <p className="text-sm font-semibold text-foreground">{assignment.title}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{assignment.subject} • Due {new Date(assignment.due_date).toLocaleDateString()}</p>
+              </div>
+            ))}
+            {pending.length === 0 && <p className="text-sm text-muted-foreground">You are caught up for now.</p>}
+          </div>
+        </Card>
       </div>
 
       <Card>

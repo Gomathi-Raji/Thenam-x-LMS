@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   CalendarClock,
-  ChartSpline,
   ClipboardCheck,
   Sparkles,
   BellRing,
 } from "lucide-react";
-import { Card, PageHeader, SectionTitle, StatCard, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
 
 export const Route = createFileRoute("/teacher/")({
   head: () => ({ meta: [{ title: "Teacher Dashboard — AetherLMS" }] }),
@@ -37,12 +36,35 @@ function TeacherDashboardPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Today’s classes" value="4" delta="2 live now" icon={CalendarClock} sparkline={[2, 3, 3, 4, 4, 4, 4]} caption="Your schedule is stacked with three priority sessions." />
-        <StatCard label="Pending grading" value="18" delta="-4" deltaTone="positive" icon={ClipboardCheck} sparkline={[21, 20, 19, 19, 18, 18, 18]} caption="Marked items are steadily moving down." />
-        <StatCard label="Attendance alerts" value="3" delta="1 urgent" deltaTone="negative" icon={BellRing} sparkline={[5, 4, 4, 3, 3, 3, 3]} caption="A quick intervention can be sent today." />
-        <StatCard label="Class engagement" value="92%" delta="+6.8%" icon={ChartSpline} sparkline={[74, 78, 80, 84, 86, 89, 92]} caption="Students are responding better to the revised pacing." />
-      </div>
+      <Card className="p-5">
+        <SectionTitle action={<Badge tone="brand">Now</Badge>} description="The next move should be obvious at a glance: teach, mark, or intervene.">
+          Classroom flow
+        </SectionTitle>
+        <div className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="space-y-3">
+            {schedule.map((item, index) => (
+              <div key={item.time} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-4 text-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">{item.time}</p>
+                    <p className="mt-1 font-semibold text-foreground">{item.className}</p>
+                    <p className="text-sm text-muted-foreground">{item.room}</p>
+                  </div>
+                  <Badge tone={index === 0 ? "success" : index === 1 ? "brand" : "neutral"}>{item.status}</Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+            <p className="text-sm font-semibold text-foreground">Priority today</p>
+            <ul className="space-y-2 text-sm leading-6 text-muted-foreground">
+              <li>Mark attendance before the first class begins.</li>
+              <li>Clear one grading block after lunch.</li>
+              <li>Send interventions only where attendance actually slipped.</li>
+            </ul>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <Card>

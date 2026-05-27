@@ -37,11 +37,23 @@ function AdminStudentsPage() {
         actions={<Badge tone="brand">{filtered.length} records</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Students" value={String(students?.length ?? 0)} delta="All classes" icon={Users} sparkline={[12, 13, 14, 15, 16, 17, 18]} caption="Total student records currently available." />
         <StatCard label="Classes" value={String(classIds.length)} delta="Distinct" deltaTone="positive" icon={Activity} sparkline={[3, 4, 4, 5, 5, 6, 6]} caption="Available class groupings from the dataset." />
-        <StatCard label="Selected class rate" value={`${attendanceRate}%`} delta="Attendance" icon={ShieldCheck} sparkline={[80, 82, 84, 86, 88, 90, 92]} caption="Selected class attendance snapshot." />
-        <StatCard label="Focus records" value={String(filtered.length)} delta="Search results" icon={Search} sparkline={[5, 6, 7, 8, 8, 9, 10]} caption="The current search is narrowing the directory." />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="brand">Explore</Badge>} description="Pick a class first, then use search to narrow the directory further.">
+            Directory filters
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Class chips show where the biggest groups live.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Search tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use names or IDs to jump straight to a student card.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">

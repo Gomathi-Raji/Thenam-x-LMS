@@ -44,11 +44,23 @@ function TeacherAttendancePage() {
         actions={<Badge tone="brand">Mark attendance</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Class size" value={String(todaysRows.length)} delta="Today" icon={Users} sparkline={[18, 18, 19, 19, 20, 20, 21]} caption="The class roster for the selected session." />
         <StatCard label="Present" value={String(presentCount)} delta="Selected" deltaTone="positive" icon={CheckCircle2} sparkline={[13, 14, 15, 16, 17, 18, 18]} caption="Most students are currently marked present." />
-        <StatCard label="Absent" value={String(absentCount)} delta="Selected" deltaTone="negative" icon={Clock3} sparkline={[4, 4, 4, 3, 3, 3, 3]} caption="Follow-up can be sent after the session." />
-        <StatCard label="Attendance rate" value={`${todaysRows.length ? Math.round((presentCount / todaysRows.length) * 100) : 0}%`} icon={ShieldCheck} sparkline={[86, 87, 88, 90, 91, 92, 93]} caption="A quick live view for leadership and records." />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="brand">Mark once</Badge>} description="Set the date, mark the row, and save in one pass to keep the workflow clean.">
+            Marking flow
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Use the date picker above to mark the correct session.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Quick tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Save after the whole class is marked so the audit trail stays consistent.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">

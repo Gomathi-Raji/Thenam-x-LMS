@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CalendarDays, HeartHandshake, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
-import { Card, PageHeader, SectionTitle, StatCard, Badge, ProgressBar, SecondaryButton } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, ProgressBar, SecondaryButton } from "@/components/app/ui-bits";
 
 export const Route = createFileRoute("/parent/")({
   head: () => ({ meta: [{ title: "Parent Dashboard — AetherLMS" }] }),
@@ -23,12 +23,29 @@ function ParentDashboardPage() {
         actions={<SecondaryButton>Message teacher</SecondaryButton>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Attendance" value="96%" delta="Stable" icon={ShieldCheck} sparkline={[93, 94, 95, 95, 96, 96, 96]} caption="Attendance is strong and consistent." />
-        <StatCard label="Unread messages" value="5" delta="2 urgent" deltaTone="negative" icon={MessageSquare} sparkline={[6, 6, 5, 5, 5, 5, 5]} caption="Two messages need your attention today." />
-        <StatCard label="Average grade" value="87%" delta="+3.5%" icon={Sparkles} sparkline={[80, 81, 83, 84, 85, 86, 87]} caption="Academic performance is improving steadily." />
-        <StatCard label="Upcoming meetings" value="2" delta="This week" icon={CalendarDays} sparkline={[1, 1, 1, 2, 2, 2, 2]} caption="Parent conversations are scheduled and visible." />
-      </div>
+      <Card className="p-5">
+        <SectionTitle action={<Badge tone="success">Calm plan</Badge>} description="Keep the next conversation simple: one message, one check-in, one follow-up.">
+          Conversation window
+        </SectionTitle>
+        <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-3">
+            {notes.map((note) => (
+              <div key={note.title} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
+                <p className="text-sm font-semibold text-foreground">{note.title}</p>
+                <p className="mt-1 text-sm leading-6 text-muted-foreground">{note.detail}</p>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+            <p className="text-sm font-semibold text-foreground">Parent rhythm</p>
+            <ul className="space-y-2 text-sm leading-6 text-muted-foreground">
+              <li>Check the inbox once in the evening.</li>
+              <li>Use the attendance note to guide tonight’s routine.</li>
+              <li>Keep the meeting list visible before the week starts.</li>
+            </ul>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <Card>

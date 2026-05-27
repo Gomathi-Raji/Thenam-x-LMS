@@ -54,11 +54,23 @@ function AdminTimetablePage() {
         actions={<Badge tone="brand">{rows.length} slots</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Scheduled slots" value={String(rows.length)} delta="Loaded" icon={CalendarDays} sparkline={[18, 20, 22, 22, 24, 25, 26]} caption="Current timetable entries from the database." />
         <StatCard label="Unique days" value={String(Object.keys(dayGroups).length)} delta="Week view" icon={Layers3} sparkline={[4, 4, 4, 5, 5, 5, 5]} caption="How many days currently have entries." />
-        <StatCard label="Peak load" value={String(Math.max(0, ...Object.values(dayGroups)))} delta="Most dense" icon={Clock3} sparkline={[2, 3, 4, 4, 5, 5, 6]} caption="The busiest day in the current schedule." />
-        <StatCard label="Template ready" value="Yes" delta="AI friendly" icon={Sparkles} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="The form is simple enough for quick slot creation." />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="brand">Setup</Badge>} description="Use the schedule summary to spot overload before adding another slot.">
+            Timetable tools
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Keep a consistent day and period pattern before filling in the form.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Planning tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">The busiest day should usually be the one you review first.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">

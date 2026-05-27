@@ -33,11 +33,25 @@ function TeacherAssignmentsPage() {
         actions={<Badge tone="brand">{assignments?.length ?? 0} items</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Assignments" value={String(assignments?.length ?? 0)} delta="Live" icon={ClipboardList} sparkline={[2, 3, 4, 4, 5, 5, 6]} caption="All assignments currently attached to this class." />
         <StatCard label="Submission total" value={String(submissionCount)} delta="Across items" deltaTone="positive" icon={CheckCircle2} sparkline={[7, 8, 9, 10, 11, 12, 12]} caption="The class is steadily submitting work." />
-        <StatCard label="Quick create" value="Fast" delta="Templates" icon={FilePlus2} sparkline={[1, 2, 2, 3, 3, 4, 4]} caption="Create a new task without extra friction." />
-        <StatCard label="AI helper" value="Ready" icon={Sparkles} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="Get prompt suggestions for worksheets and quizzes." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Create faster</Badge>} description="Use a template, keep the title short, and launch the task from one place.">
+            Assignment tips
+          </SectionTitle>
+          <div className="space-y-3">
+            {[
+              "Keep the subject aligned to the lesson plan",
+              "Use AI for quiz and worksheet prompts",
+              "Review submissions before adding a new task",
+            ].map((item) => (
+              <div key={item} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+                {item}
+              </div>
+            ))}
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_0.95fr]">

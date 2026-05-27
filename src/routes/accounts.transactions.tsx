@@ -58,11 +58,23 @@ function AccountsTransactionsPage() {
         actions={<Badge tone="brand">{rows.length} payments</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Total payments" value={String(rows.length)} delta="Ledger" icon={ReceiptText} sparkline={[8, 9, 10, 11, 12, 12, 13]} caption="All recorded payment entries in the system." />
         <StatCard label="Collected amount" value={totalAmount.toLocaleString()} delta="Gross" deltaTone="positive" icon={Wallet} sparkline={[50, 56, 61, 67, 73, 80, 86]} caption="The current total amount captured in records." />
-        <StatCard label="UPI verified" value={`${verifiedRate}%`} delta={`${upiCount} txns`} icon={BadgeCheck} sparkline={[80, 82, 83, 85, 86, 88, 90]} caption="A quick indicator of payment verification coverage." />
-        <StatCard label="Audit ready" value="Yes" delta="Exportable" icon={Search} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="Searchable records are easier to audit or print." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Workflow</Badge>} description="Use verification data to decide what needs manual review next.">
+            Transaction tools
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Filter by student first when checking a payment issue.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Review tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">UPI rows are easiest to reconcile when transaction IDs stay visible.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">

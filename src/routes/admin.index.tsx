@@ -72,7 +72,7 @@ function AdminDashboardPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard
           label="Total students"
           value="1,248"
@@ -89,35 +89,34 @@ function AdminDashboardPage() {
           sparkline={[72, 75, 79, 80, 82, 84, 86]}
           caption="Faculty capacity is balanced across departments."
         />
-        <StatCard
-          label="Term attendance"
-          value="96%"
-          delta="+1.3%"
-          icon={ClipboardCheck}
-          sparkline={[90, 91, 92, 94, 94, 95, 96]}
-          caption="Attendance recovery efforts are working well."
-        />
-        <StatCard
-          label="Open alerts"
-          value="4"
-          delta="2 urgent"
-          deltaTone="negative"
-          icon={BadgeAlert}
-          sparkline={[5, 4, 4, 3, 3, 4, 4]}
-          caption="Two items need immediate leadership review."
-        />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="warning">Needs attention</Badge>} description="Surface the actions that matter before the rest of the dashboard.">
+            Leadership queue
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Review attendance dips in Grade 10-B.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Export the leadership report for this week.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Fast path</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the command queue for decisions instead of scanning a fourth summary card.</p>
+            </div>
+          </div>
+        </Card>
+
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.65fr_1fr]">
-        <Card className="p-0">
-          <div className="border-b border-border/70 px-6 py-5">
-            <SectionTitle
-              description="Weekly institutional pulse across attendance, academics, and financial operations."
-              action={<Badge tone="brand">Last 7 days</Badge>}
-            >
-              Institutional Pulse
-            </SectionTitle>
-          </div>
+        <Card>
+          <SectionTitle
+            description="Weekly institutional pulse across attendance, academics, and financial operations."
+            action={<Badge tone="brand">Last 7 days</Badge>}
+          >
+            Institutional Pulse
+          </SectionTitle>
           <div className="h-[340px] px-2 py-4 md:px-4">
             <ResponsiveContainer>
               <AreaChart

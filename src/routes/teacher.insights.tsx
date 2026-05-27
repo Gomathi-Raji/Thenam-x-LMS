@@ -27,11 +27,23 @@ function TeacherInsightsPage() {
         actions={<Badge tone="brand">Insights live</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Students" value={String(analytics?.student_count ?? 0)} delta="Active" icon={BookOpen} sparkline={[18, 18, 19, 19, 20, 20, 21]} caption="Roster size for the current class." />
         <StatCard label="Attendance" value={`${analytics?.attendance_rate ?? 0}%`} delta="Tracked" icon={TrendingUp} sparkline={[86, 87, 88, 89, 90, 91, 92]} caption="The class attendance trend remains stable." />
-        <StatCard label="Avg score" value={`${analytics?.average_score ?? 0}%`} delta="Across exams" icon={BarChart3} sparkline={[72, 74, 75, 77, 79, 80, 82]} caption="Average performance across assessments." />
-        <StatCard label="Assignments" value={String(analytics?.assignments_count ?? 0)} delta="Total" icon={ShieldAlert} sparkline={[2, 2, 3, 3, 3, 4, 4]} caption="Assignment workload across the term." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">Next action</Badge>} description="The trend cards matter most when they guide the next lesson decision.">
+            Teaching summary
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Support the weakest subject with one short intervention.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Focus tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">If attendance stays strong, the score gap is usually the fastest lever to close.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">

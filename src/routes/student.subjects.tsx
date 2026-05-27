@@ -54,11 +54,23 @@ function StudentSubjectsPage() {
         actions={<Badge tone="brand">{subjects.length} subjects</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Subject average" value={`${subjects.reduce((sum, item) => sum + item.percent, 0) / Math.max(1, subjects.length) || 0}%`} delta="All classes" icon={BookOpen} sparkline={[76, 78, 80, 82, 84, 85, 87]} caption="A blended average across all graded subjects." />
         <StatCard label="Strongest subject" value={subjects[0]?.subject ?? "N/A"} delta={subjects[0] ? `${subjects[0].percent}%` : ""} deltaTone="positive" icon={TrendingUp} sparkline={[80, 82, 84, 86, 88, 90, 92]} caption="This is your clearest strength right now." />
-        <StatCard label="Needs focus" value={subjects.at(-1)?.subject ?? "N/A"} delta={subjects.at(-1) ? `${subjects.at(-1).percent}%` : ""} deltaTone="negative" icon={TrendingDown} sparkline={[72, 71, 70, 69, 68, 67, 66]} caption="A little extra revision would help here." />
-        <StatCard label="AI prediction" value="B+" delta="Likely" icon={BrainCircuit} sparkline={[77, 79, 80, 82, 83, 84, 85]} caption="The current trajectory is healthy if revision stays consistent." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Plan</Badge>} description="Use the weakest subject as the starting point for your next revision block.">
+            Revision guide
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Short revision blocks are better than long sessions.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Best move</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Review the weakest subject once before practice and once after.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_0.95fr]">

@@ -24,11 +24,23 @@ function ParentNotificationsPage() {
         actions={<Badge tone="brand">{items.length} alerts</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Alerts" value={String(items.length)} delta="All types" icon={BellRing} sparkline={[1, 2, 2, 3, 3, 4, 4]} caption="Current parent-facing alerts in the inbox." />
         <StatCard label="Unseen" value={String(items.filter((item) => !item.read).length)} delta="Unread" deltaTone="negative" icon={Sparkles} sparkline={[1, 1, 2, 2, 2, 2, 2]} caption="Unread notifications need a quick glance." />
-        <StatCard label="Important" value={String(items.filter((item) => item.severity === "danger").length)} delta="Priority" deltaTone="negative" icon={BellRing} sparkline={[0, 1, 1, 1, 1, 1, 1]} caption="High-severity items are surfaced first." />
-        <StatCard label="Calm mode" value="On" delta="Organized" icon={Sparkles} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="A reassuring view that avoids clutter." />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="brand">Priority</Badge>} description="Scan top-down: urgent first, then unread, then everything else.">
+            Inbox filters
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Start with unread alerts that mention attendance, fees, or meetings.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Parent tip</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Reply to the teacher directly when an alert needs clarification.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <Card>

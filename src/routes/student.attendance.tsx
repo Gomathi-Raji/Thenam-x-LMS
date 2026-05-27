@@ -46,11 +46,24 @@ function StudentAttendancePage() {
         actions={<Badge tone="brand"><ShieldCheck className="mr-1 inline size-3" />Verified records</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Total sessions" value={String(stats.total)} delta="This term" icon={Activity} sparkline={[6, 7, 8, 8, 9, 10, 11]} caption="A healthy sample size for the current term." />
         <StatCard label="Present" value={String(stats.present)} delta="Live" icon={CheckCircle2} sparkline={[5, 6, 6, 7, 7, 8, 8]} caption="Attendance remains well managed across subjects." />
-        <StatCard label="Attendance rate" value={`${stats.percent}%`} delta="Stable" deltaTone="positive" icon={TrendingUp} sparkline={[90, 91, 92, 93, 94, 95, 96]} caption="The pattern is trending upward." />
-        <StatCard label="Current status" value="On track" icon={ShieldCheck} sparkline={[1, 2, 3, 3, 4, 4, 5]} caption="No immediate attendance concerns detected." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">What to watch</Badge>} description="Focus on the threshold and the subject breakdown, not just the headline rate.">
+            Attendance insight
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">Target threshold</p>
+              <p className="mt-1 text-sm text-muted-foreground">95% is the school benchmark.</p>
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Next action</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the subject chart below to spot where a small catch-up session would help most.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">

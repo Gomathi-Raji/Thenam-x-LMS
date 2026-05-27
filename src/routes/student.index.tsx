@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { BookOpen, CalendarClock, Flame, Sparkles, CheckCircle2, GraduationCap } from "lucide-react";
-import { Card, PageHeader, SectionTitle, StatCard, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
+import { CalendarClock, Flame, Sparkles, CheckCircle2 } from "lucide-react";
+import { Card, PageHeader, SectionTitle, Badge, PrimaryButton, SecondaryButton, ProgressBar } from "@/components/app/ui-bits";
 
 export const Route = createFileRoute("/student/")({
   head: () => ({ meta: [{ title: "Student Dashboard — AetherLMS" }] }),
@@ -30,12 +30,32 @@ function StudentDashboardPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Learning streak" value="7 days" delta="+2" deltaTone="positive" icon={Flame} sparkline={[2, 3, 3, 4, 5, 6, 7]} caption="Consistency is becoming a strong habit." />
-        <StatCard label="Attendance" value="96%" delta="+1.1%" icon={CalendarClock} sparkline={[92, 92, 93, 94, 95, 95, 96]} caption="Your attendance is well above school average." />
-        <StatCard label="Assignments due" value="3" delta="1 urgent" deltaTone="negative" icon={CheckCircle2} sparkline={[5, 5, 4, 4, 4, 3, 3]} caption="Finish one item today to stay ahead." />
-        <StatCard label="Latest average" value="87%" delta="+4.2%" icon={GraduationCap} sparkline={[79, 81, 82, 84, 85, 86, 87]} caption="Your latest term results are trending upward." />
-      </div>
+      <Card className="p-5">
+        <SectionTitle action={<Badge tone="brand">Today</Badge>} description="The most useful work is the next thing you can finish, not the biggest number on the page.">
+          Study lane
+        </SectionTitle>
+        <div className="grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-3">
+            {tasks.map((task) => (
+              <div key={task.title} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-foreground">{task.title}</p>
+                  <Badge tone={task.status === "Urgent" ? "warning" : task.status === "In progress" ? "brand" : "neutral"}>{task.status}</Badge>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">Due {task.due}</p>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+            <p className="text-sm font-semibold text-foreground">Focus for today</p>
+            <ul className="space-y-2 text-sm leading-6 text-muted-foreground">
+              <li>Finish one urgent assignment before moving to the next subject.</li>
+              <li>Keep revision short and active, not long and passive.</li>
+              <li>Use the AI tutor for one question, not the full lesson.</li>
+            </ul>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <Card>

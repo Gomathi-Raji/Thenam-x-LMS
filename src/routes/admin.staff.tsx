@@ -21,11 +21,23 @@ function AdminStaffPage() {
         actions={<Badge tone="brand">{staff.length} staff</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Staff members" value={String(staff.length)} delta="Active" icon={Users} sparkline={[20, 22, 23, 24, 25, 26, 27]} caption="Academic staff currently loaded from MongoDB." />
         <StatCard label="Core subjects" value={String(new Set(staff.map((item) => item.subject)).size)} delta="Coverage" deltaTone="positive" icon={BookOpen} sparkline={[5, 5, 6, 6, 7, 7, 7]} caption="Subjects represented across the teaching team." />
-        <StatCard label="Workload balance" value="88%" delta="Healthy" icon={Gauge} sparkline={[80, 82, 84, 85, 87, 88, 88]} caption="A rough but useful view of workload balance." />
-        <StatCard label="Profile completeness" value="94%" delta="Verified" icon={BadgeCheck} sparkline={[90, 91, 92, 93, 94, 94, 94]} caption="Most teacher profiles are complete and ready." />
+        <Card className="p-5 md:col-span-2 xl:col-span-1">
+          <SectionTitle action={<Badge tone="brand">Tools</Badge>} description="Filter by subject first, then review workload and profile completeness.">
+            Directory tools
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              Search by subject or staff ID before opening a profile.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Review focus</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the workload view to spot overloaded teachers before the next timetable change.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <Card>

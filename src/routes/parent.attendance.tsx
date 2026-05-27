@@ -30,11 +30,23 @@ function ParentAttendancePage() {
         actions={<Badge tone="brand">Latest records</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
         <StatCard label="Total" value={String(stats.total)} delta="Sessions" icon={CalendarDays} sparkline={[4, 5, 6, 7, 8, 8, 9]} caption="All attendance records currently available." />
         <StatCard label="Present" value={String(stats.present)} delta="Strong" deltaTone="positive" icon={ShieldCheck} sparkline={[4, 4, 5, 6, 7, 8, 8]} caption="A healthy number of attended sessions." />
-        <StatCard label="Rate" value={`${stats.percent}%`} delta="Stable" icon={TrendingUp} sparkline={[90, 91, 92, 93, 94, 95, 96]} caption="Attendance is trending in a positive direction." />
-        <StatCard label="Notes" value="Live" delta="Parent view" icon={ShieldCheck} sparkline={[1, 1, 2, 2, 3, 3, 4]} caption="Helpful context for at-home support." />
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">Home rhythm</Badge>} description="Use the record list to keep a calm routine at home, not to chase every detail.">
+            At-home guide
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              A short nightly check-in keeps the attendance pattern strong.
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Helpful signal</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">If a missed session appears, review it early with your child and the teacher.</p>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
