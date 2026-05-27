@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { BookOpen, BrainCircuit, TrendingDown, TrendingUp } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
-import { Card, PageHeader, SectionTitle, Badge, StatCard, ProgressBar, EmptyState } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, ProgressBar, EmptyState, PrimaryButton, SecondaryButton } from "@/components/app/ui-bits";
 import { resolveStudentId } from "@/lib/defaults";
 import { useMarks } from "@/hooks/api-hooks";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -54,20 +54,62 @@ function StudentSubjectsPage() {
         actions={<Badge tone="brand">{subjects.length} subjects</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
-        <StatCard label="Subject average" value={`${subjects.reduce((sum, item) => sum + item.percent, 0) / Math.max(1, subjects.length) || 0}%`} delta="All classes" icon={BookOpen} sparkline={[76, 78, 80, 82, 84, 85, 87]} caption="A blended average across all graded subjects." />
-        <StatCard label="Strongest subject" value={subjects[0]?.subject ?? "N/A"} delta={subjects[0] ? `${subjects[0].percent}%` : ""} deltaTone="positive" icon={TrendingUp} sparkline={[80, 82, 84, 86, 88, 90, 92]} caption="This is your clearest strength right now." />
+      <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Plan</Badge>} description="Use the weakest subject as the starting point for your next revision block.">
+          <SectionTitle action={<Badge tone="brand">Plan</Badge>} description="Pick the subject that needs help first, then keep the session short and targeted.">
+            Revision board
+          </SectionTitle>
+          <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="space-y-3">
+              <div className="rounded-2xl border border-border/70 bg-secondary/25 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Current average</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Across all graded subjects</p>
+                  </div>
+                  <span className="text-2xl font-bold text-foreground">{Math.round(subjects.reduce((sum, item) => sum + item.percent, 0) / Math.max(1, subjects.length) || 0)}%</span>
+                </div>
+                <div className="mt-4">
+                  <ProgressBar value={Math.round(subjects.reduce((sum, item) => sum + item.percent, 0) / Math.max(1, subjects.length) || 0)} tone="brand" />
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl border border-border/70 p-4">
+                  <p className="text-sm font-semibold text-foreground">Weakest subject</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Start here for the next revision cycle.</p>
+                </div>
+                <div className="rounded-2xl border border-border/70 p-4">
+                  <p className="text-sm font-semibold text-foreground">Strongest subject</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Keep this one warm with light practice.</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Study tools</p>
+              <div className="grid gap-2">
+                <PrimaryButton>Start 20 min revision</PrimaryButton>
+                <SecondaryButton>Ask AI for a hint</SecondaryButton>
+              </div>
+              <p className="text-sm leading-6 text-muted-foreground">Short sessions beat long ones when you want better recall and less fatigue.</p>
+              <div className="rounded-2xl border border-border/70 bg-card px-4 py-3 text-sm text-foreground">
+                Next step: focus on one weak topic and one practice set only.
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">Direction</Badge>} description="Turn the chart below into a weekly habit, not a one-off check.">
             Revision guide
           </SectionTitle>
           <div className="space-y-3">
-            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
-              Short revision blocks are better than long sessions.
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
+              <p className="text-sm font-semibold text-foreground">Short rule</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">One subject, one worksheet, one practice question bank.</p>
             </div>
             <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Best move</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">Review the weakest subject once before practice and once after.</p>
+              <p className="text-sm font-semibold text-foreground">Weekly habit</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Review the weakest subject twice: once before practice and once after.</p>
             </div>
           </div>
         </Card>

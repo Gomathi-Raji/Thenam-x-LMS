@@ -16,7 +16,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { Card, PageHeader, SectionTitle, Badge, StatCard, ProgressBar, EmptyState } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, ProgressBar, EmptyState, PrimaryButton, SecondaryButton } from "@/components/app/ui-bits";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveStudentId } from "@/lib/defaults";
 import { useAttendance, useAttendanceSummary } from "@/hooks/api-hooks";
@@ -46,21 +46,69 @@ function StudentAttendancePage() {
         actions={<Badge tone="brand"><ShieldCheck className="mr-1 inline size-3" />Verified records</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
-        <StatCard label="Total sessions" value={String(stats.total)} delta="This term" icon={Activity} sparkline={[6, 7, 8, 8, 9, 10, 11]} caption="A healthy sample size for the current term." />
-        <StatCard label="Present" value={String(stats.present)} delta="Live" icon={CheckCircle2} sparkline={[5, 6, 6, 7, 7, 8, 8]} caption="Attendance remains well managed across subjects." />
+      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="success">What to watch</Badge>} description="Focus on the threshold and the subject breakdown, not just the headline rate.">
+          <SectionTitle action={<Badge tone="success">What to do</Badge>} description="Attendance becomes useful when it leads to the next practical step.">
+            Attendance rhythm
+          </SectionTitle>
+          <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="space-y-3">
+              <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{stats.present}/{stats.total} sessions present</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{stats.percent}% overall attendance this term</p>
+                  </div>
+                  <Badge tone={stats.percent >= 95 ? "success" : "warning"}>{stats.percent >= 95 ? "On target" : "Needs review"}</Badge>
+                </div>
+                <div className="mt-4">
+                  <ProgressBar value={stats.percent} tone={stats.percent >= 95 ? "success" : "brand"} />
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-2xl border border-border/70 p-4">
+                  <p className="text-sm font-semibold text-foreground">Catch-up check</p>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">Review any missed class within 24 hours so it does not pile up.</p>
+                </div>
+                <div className="rounded-2xl border border-border/70 p-4">
+                  <p className="text-sm font-semibold text-foreground">Support request</p>
+                  <p className="mt-1 text-sm leading-6 text-muted-foreground">If one subject keeps slipping, message the teacher before the next class.</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Quick attendance actions</p>
+              <div className="grid gap-2">
+                <PrimaryButton>Open timetable</PrimaryButton>
+                <SecondaryButton>Message teacher</SecondaryButton>
+              </div>
+              <p className="text-sm leading-6 text-muted-foreground">Use attendance data to spot one small fix, not to stare at the whole term at once.</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Live signal</Badge>} description="A quick note that turns the table below into an action list.">
             Attendance insight
           </SectionTitle>
           <div className="space-y-3">
             <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3">
               <p className="text-sm font-semibold text-foreground">Target threshold</p>
-              <p className="mt-1 text-sm text-muted-foreground">95% is the school benchmark.</p>
+              <p className="mt-1 text-sm text-muted-foreground">95% is the school benchmark for a strong routine.</p>
             </div>
             <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Next action</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the subject chart below to spot where a small catch-up session would help most.</p>
+              <p className="text-sm font-semibold text-foreground">Best next step</p>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the subject chart below to find a single class that needs a catch-up session or reminder.</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-border/70 p-3 text-center">
+                <p className="text-lg font-bold text-foreground">{stats.total}</p>
+                <p className="text-xs text-muted-foreground">Sessions</p>
+              </div>
+              <div className="rounded-2xl border border-border/70 p-3 text-center">
+                <p className="text-lg font-bold text-foreground">{stats.percent}%</p>
+                <p className="text-xs text-muted-foreground">Attendance</p>
+              </div>
             </div>
           </div>
         </Card>

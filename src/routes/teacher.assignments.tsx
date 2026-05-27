@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { FilePlus2, Sparkles, ClipboardList, CheckCircle2 } from "lucide-react";
-import { Card, PageHeader, SectionTitle, Badge, StatCard, ProgressBar, EmptyState, PrimaryButton } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, ProgressBar, EmptyState, PrimaryButton, SecondaryButton } from "@/components/app/ui-bits";
 import { resolveTeacherClassId } from "@/lib/defaults";
 import { useAssignments, useCreateAssignment } from "@/hooks/api-hooks";
 
@@ -33,23 +33,52 @@ function TeacherAssignmentsPage() {
         actions={<Badge tone="brand">{assignments?.length ?? 0} items</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
-        <StatCard label="Assignments" value={String(assignments?.length ?? 0)} delta="Live" icon={ClipboardList} sparkline={[2, 3, 4, 4, 5, 5, 6]} caption="All assignments currently attached to this class." />
-        <StatCard label="Submission total" value={String(submissionCount)} delta="Across items" deltaTone="positive" icon={CheckCircle2} sparkline={[7, 8, 9, 10, 11, 12, 12]} caption="The class is steadily submitting work." />
+      <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Create faster</Badge>} description="Use a template, keep the title short, and launch the task from one place.">
-            Assignment tips
+          <SectionTitle action={<Badge tone="brand">Create faster</Badge>} description="Use one hub to launch assignments, prompts, and grading prep.">
+            Assignment studio
           </SectionTitle>
-          <div className="space-y-3">
-            {[
-              "Keep the subject aligned to the lesson plan",
-              "Use AI for quiz and worksheet prompts",
-              "Review submissions before adding a new task",
-            ].map((item) => (
-              <div key={item} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
-                {item}
+          <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-3">
+              {[
+                "Keep the subject aligned to the lesson plan",
+                "Use AI for quiz and worksheet prompts",
+                "Review submissions before adding a new task",
+              ].map((item) => (
+                <div key={item} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Launch tools</p>
+              <div className="grid gap-2">
+                <PrimaryButton><FilePlus2 className="mr-2 size-4" />New assignment</PrimaryButton>
+                <SecondaryButton><Sparkles className="mr-2 size-4" />AI prompt helper</SecondaryButton>
               </div>
-            ))}
+              <p className="text-sm leading-6 text-muted-foreground">Keep titles short, attach clear instructions, and only add the next task once the current one is visible to students.</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">Queue</Badge>} description="A compact look at what needs attention next.">
+            Grading workflow
+          </SectionTitle>
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Submission total</p>
+                  <p className="text-sm text-muted-foreground">Across all attached assignments</p>
+                </div>
+                <span className="text-2xl font-bold text-foreground">{submissionCount}</span>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 p-4 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Teacher note</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">Check one assignment at a time and mark the highest-priority submissions first to keep feedback timely.</p>
+            </div>
           </div>
         </Card>
       </div>

@@ -25,7 +25,6 @@ import {
   Card,
   PageHeader,
   SectionTitle,
-  StatCard,
   PrimaryButton,
   SecondaryButton,
   ProgressBar,
@@ -72,41 +71,68 @@ function AdminDashboardPage() {
         }
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
-        <StatCard
-          label="Total students"
-          value="1,248"
-          delta="+6.4%"
-          icon={GraduationCap}
-          sparkline={[82, 84, 84, 88, 90, 93, 96]}
-          caption="Enrollment and retention remain ahead of target."
-        />
-        <StatCard
-          label="Academic staff"
-          value="86"
-          delta="+2.1%"
-          icon={Users}
-          sparkline={[72, 75, 79, 80, 82, 84, 86]}
-          caption="Faculty capacity is balanced across departments."
-        />
-        <Card className="p-5 md:col-span-2 xl:col-span-1">
-          <SectionTitle action={<Badge tone="warning">Needs attention</Badge>} description="Surface the actions that matter before the rest of the dashboard.">
+      <div className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="warning">Needs attention</Badge>} description="Use this queue to decide, delegate, or broadcast without hunting through summary cards.">
             Leadership queue
           </SectionTitle>
-          <div className="space-y-3">
-            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
-              Review attendance dips in Grade 10-B.
+          <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="space-y-3">
+              {[
+                { title: "Review attendance dips in Grade 10-B", note: "Create a teacher follow-up and parent alert." },
+                { title: "Approve the fee recovery batch", note: "Send once the finance lead signs off." },
+                { title: "Open the staff workload board", note: "Check profiles needing designation updates." },
+              ].map((item) => (
+                <div key={item.title} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+                  <p className="font-medium">{item.title}</p>
+                  <p className="mt-1 text-xs leading-5 text-muted-foreground">{item.note}</p>
+                </div>
+              ))}
             </div>
-            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
-              Export the leadership report for this week.
-            </div>
-            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+            <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
               <p className="text-sm font-semibold text-foreground">Fast path</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">Use the command queue for decisions instead of scanning a fourth summary card.</p>
+              <div className="space-y-2 text-sm leading-6 text-muted-foreground">
+                <p>Use the queue for decisions instead of scanning a fourth summary card.</p>
+                <p>Broadcast one leadership update instead of sending three separate messages.</p>
+              </div>
+              <div className="grid gap-2 pt-1">
+                <button className="rounded-2xl border border-border/70 bg-card px-4 py-3 text-left text-sm font-medium text-foreground transition hover:border-brand-300">
+                  Review now
+                </button>
+                <button className="rounded-2xl border border-border/70 bg-card px-4 py-3 text-left text-sm font-medium text-foreground transition hover:border-brand-300">
+                  Send update
+                </button>
+              </div>
             </div>
           </div>
         </Card>
 
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Today</Badge>} description="The next 24 hours should be clear without relying on KPI noise.">
+            Operational pulse
+          </SectionTitle>
+          <div className="space-y-3">
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              <p className="font-medium">Morning check-in</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">Attendance review and late entry monitoring before first period.</p>
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
+              <p className="font-medium">Afternoon approval</p>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">Finance batch and staff profile updates need leadership sign-off.</p>
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Quick actions</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button className="rounded-2xl border border-border/70 bg-card px-4 py-3 text-left text-sm font-medium text-foreground transition hover:border-brand-300">
+                  Open reports
+                </button>
+                <button className="rounded-2xl border border-border/70 bg-card px-4 py-3 text-left text-sm font-medium text-foreground transition hover:border-brand-300">
+                  Export PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.65fr_1fr]">
