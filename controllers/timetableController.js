@@ -1,10 +1,15 @@
 import { created, ok } from "../utils/apiResponse.js";
 import { requireFields } from "../utils/validators.js";
-import { createTimetableEntry, listTimetable } from "../services/timetableService.js";
+import { createTimetableEntry, getTimetableByTeacher as getTimetableByTeacherService, listTimetable } from "../services/timetableService.js";
 import { publishDomainEvent } from "../server/events/domainEvents.js";
 
 export async function getTimetable(req, res) {
   const timetable = await listTimetable();
+  return ok(res, timetable);
+}
+
+export async function getTimetableByTeacher(req, res) {
+  const timetable = await getTimetableByTeacherService(req.params.teacherId);
   return ok(res, timetable);
 }
 

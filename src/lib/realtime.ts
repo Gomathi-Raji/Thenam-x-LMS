@@ -27,6 +27,21 @@ const RESOURCE_QUERY_KEYS: Record<string, QueryKey[]> = {
   analytics: [["analytics"]],
 };
 
+const RESOURCE_LABELS: Record<string, string> = {
+  students: "Students",
+  teachers: "Teachers",
+  attendance: "Attendance",
+  marks: "Marks",
+  assignments: "Assignments",
+  fees: "Fees",
+  payments: "Payments",
+  timetable: "Timetable",
+  notifications: "Notifications",
+  profile: "Profile",
+  analytics: "Analytics",
+  ai: "AI assistant",
+};
+
 function normalizeResource(resource: string | undefined, eventName: string) {
   const base = resource?.trim().toLowerCase() || eventName.split(".")[0]?.toLowerCase() || "";
   if (!base) return "";
@@ -73,4 +88,15 @@ export function resolveRealtimeAuth(role: Role, auth: AuthState | null) {
 export function resolveInvalidationKeys(envelope: RealtimeEnvelope) {
   const resource = normalizeResource(envelope.payload?.resource as string | undefined, envelope.event);
   return RESOURCE_QUERY_KEYS[resource] ?? (resource ? ([[resource]] as QueryKey[]) : []);
+}
+
+export function describeRealtimeEvent(envelope: RealtimeEnvelope) {
+  const resource = normalizeResource(envelope.payload?.resource as string | undefined, envelope.event);
+  const label = RESOURCE_LABELS[resource] ?? (resource || "Campus");
+  const action = String(envelope.payload?.action ?? envelope.event.split(".").at(-1) ?? "updated");
+
+  return {
+    title: `${label} ${action}`,
+    description: `Live ${label.toLowerCase()} data has been refreshed.`,
+  };
 }

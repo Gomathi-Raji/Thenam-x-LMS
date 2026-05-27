@@ -17,6 +17,7 @@ function Shell({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const sidebarWidth = collapsed ? 84 : 292;
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
@@ -27,7 +28,10 @@ function Shell({ children }: { children: ReactNode }) {
       <div className="relative flex min-h-screen">
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed((value) => !value)} />
 
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div
+          className="flex min-w-0 flex-1 flex-col transition-[padding-left] duration-300 ease-out"
+          style={{ paddingLeft: sidebarWidth }}
+        >
           <TopBar onMenu={() => setMobileOpen(true)} />
           <main className="flex-1 pb-8">
             <AnimatePresence mode="wait">

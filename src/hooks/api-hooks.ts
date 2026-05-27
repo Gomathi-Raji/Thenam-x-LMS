@@ -89,6 +89,14 @@ export type ProfileRecord = {
 
 export type ProfileUpdateInput = Partial<Omit<ProfileRecord, "role" | "recent_activity">>;
 
+export type ParentOverview = {
+  parent: { parent_id: string; student_id: string; name: string };
+  student: Student | null;
+  attendanceSummary: AttendanceSummary | null;
+  assignments: StudentAssignment[];
+  notifications: NotificationItem[];
+};
+
 type ApiList<T> = { data: T[] };
 type ApiItem<T> = { data: T };
 
@@ -273,6 +281,35 @@ export function useClassAnalytics(classId: string | undefined) {
     queryFn: () => apiGet<ApiItem<ClassAnalytics>>(`/analytics/class/${classId}`),
     select: (data) => data.data,
     enabled: !!classId,
+  });
+}
+
+export function useClassAnalyticsQueries(classIds: string[]) {
+  return useQueries({
+    queries: classIds.map((classId) => ({
+      queryKey: ["analytics", classId],
+      queryFn: () => apiGet<ApiItem<ClassAnalytics>>(`/analytics/class/${classId}`),
+      select: (data: ApiItem<ClassAnalytics>) => data.data,
+      enabled: !!classId,
+    })),
+  });
+}
+
+export function useTimetableByTeacher(teacherId: string | undefined) {
+  return useQuery({
+    queryKey: ["timetable", "teacher", teacherId],
+    queryFn: () => apiGet<ApiList<TimetableEntry>>(`/timetable/teacher/${teacherId}`),
+    select: (data) => data.data,
+    enabled: !!teacherId,
+  });
+}
+
+export function useParentOverview(parentId: string | undefined) {
+  return useQuery({
+    queryKey: ["parents", parentId, "overview"],
+    queryFn: () => apiGet<ApiItem<ParentOverview>>(`/parents/${parentId}/overview`),
+    select: (data) => data.data,
+    enabled: !!parentId,
   });
 }
 

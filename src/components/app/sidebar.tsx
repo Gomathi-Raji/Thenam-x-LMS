@@ -196,15 +196,25 @@ function SidebarContent({
                     to={item.to as any}
                     onClick={onNavigate}
                     className={cn(
-                      "group relative flex items-center gap-3 rounded-2xl text-sm font-medium transition-all duration-200",
+                      "group relative overflow-hidden flex items-center gap-3 rounded-2xl text-sm font-medium transition-all duration-200",
                       compact ? "mx-auto w-12 justify-center px-0 py-3" : "px-3 py-3",
                       active
                         ? compact
-                          ? "border border-brand-300/25 bg-transparent text-brand-200"
-                          : "border border-brand-200/70 bg-brand-50 text-brand-800 shadow-sm dark:border-brand-400/20 dark:bg-brand-500/10 dark:text-brand-200"
+                          ? "border border-brand-300/25 text-brand-200"
+                          : "border border-brand-200/70 text-brand-800 shadow-sm dark:border-brand-400/20 dark:text-brand-200"
                         : "border border-transparent text-muted-foreground hover:border-border/70 hover:bg-secondary/60 hover:text-foreground",
                     )}
                   >
+                    {active && (
+                      <motion.span
+                        layoutId="sidebar-active-bg"
+                        className={cn(
+                          "absolute inset-0 rounded-2xl bg-gradient-to-r from-brand-500/18 via-brand-500/12 to-transparent",
+                          compact && "rounded-full bg-brand-500/20",
+                        )}
+                        transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                      />
+                    )}
                     {active && (
                       <span className={cn("absolute rounded-full bg-brand-600", compact ? "inset-y-2 left-1 w-0.5" : "inset-y-2 left-1 w-1")} />
                     )}
@@ -266,9 +276,14 @@ function SidebarContent({
     <motion.aside
       animate={{ width: collapsed ? 84 : 292 }}
       transition={{ type: "spring", stiffness: 240, damping: 28 }}
-      className="sticky top-0 hidden h-screen shrink-0 overflow-hidden border-r border-sidebar-border bg-sidebar/95 backdrop-blur-xl md:flex"
+      className="fixed left-0 top-0 z-40 hidden h-screen shrink-0 overflow-hidden border-r border-sidebar-border bg-sidebar/95 backdrop-blur-xl md:flex"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(79,70,229,0.18),transparent_28%),linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent_22%)]" />
+      <motion.div
+        aria-hidden="true"
+        layoutId="sidebar-shell-bg"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(79,70,229,0.18),transparent_28%),linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent_22%)]"
+        transition={{ type: "spring", stiffness: 220, damping: 26 }}
+      />
       {content}
     </motion.aside>
   );

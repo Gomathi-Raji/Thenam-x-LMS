@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { io } from "socket.io-client";
+import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 import { useRole } from "./role-context";
-import { resolveInvalidationKeys, resolveRealtimeAuth, resolveRealtimeUrl, type RealtimeEnvelope } from "@/lib/realtime";
+import { describeRealtimeEvent, resolveInvalidationKeys, resolveRealtimeAuth, resolveRealtimeUrl, type RealtimeEnvelope } from "@/lib/realtime";
 
 export function RealtimeSync() {
   const queryClient = useQueryClient();
@@ -25,6 +26,9 @@ export function RealtimeSync() {
       for (const key of keys) {
         queryClient.invalidateQueries({ queryKey: key });
       }
+
+      const message = describeRealtimeEvent(envelope);
+      toast(message.title, { description: message.description });
     };
 
     socket.on("domain:event", onDomainEvent);
