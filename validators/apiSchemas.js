@@ -83,3 +83,25 @@ export const aiChatSchema = z.object({
   subject: z.string().trim().min(1),
   question: z.string().trim().min(1),
 });
+
+export const profileRoleParamsSchema = z.object({
+  role: z.enum(["admin", "teacher", "student", "parent", "accounts"]),
+});
+
+export const profileUpdateSchema = z.object({
+  display_name: z.string().trim().min(2).optional(),
+  subtitle: z.string().trim().min(2).optional(),
+  email: z.string().trim().email().optional(),
+  phone: z.string().trim().min(3).optional(),
+  location: z.string().trim().min(2).optional(),
+  bio: z.string().trim().min(10).optional(),
+  theme: z.enum(["light", "dark", "system"]).optional(),
+  accent: z.enum(["brand", "emerald", "amber", "rose"]).optional(),
+  density: z.enum(["comfortable", "compact"]).optional(),
+  default_landing: z.string().trim().min(1).optional(),
+  compact_sidebar: z.coerce.boolean().optional(),
+  keyboard_shortcuts: z.coerce.boolean().optional(),
+  email_notifications: z.coerce.boolean().optional(),
+  sms_notifications: z.coerce.boolean().optional(),
+  weekly_digest: z.coerce.boolean().optional(),
+});

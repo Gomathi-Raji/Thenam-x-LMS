@@ -28,7 +28,7 @@ const NAV: Record<Role, { section: string; items: Item[] }[]> = {
       section: "Institution",
       items: [
         { to: "/admin", label: "Overview", icon: LayoutDashboard, note: "KPIs" },
-        { to: "/admin/staff", label: "Academic Staff", icon: Users, note: "Faculty" },
+        { to: "/admin/staff", label: "Teaching Staff", icon: Users, note: "Directory" },
         { to: "/admin/students", label: "Student Directory", icon: GraduationCap, note: "Search" },
         { to: "/admin/timetable", label: "Timetable", icon: CalendarDays, note: "Schedule" },
         { to: "/accounts", label: "Finance", icon: Wallet, note: "Ledger" },
@@ -115,7 +115,7 @@ function SidebarContent({
           {!collapsed && (
             <div>
               <p className="text-base font-semibold tracking-tight text-foreground">AetherLMS</p>
-              <p className="text-xs text-muted-foreground">Premium school operating system</p>
+              <p className="text-xs text-muted-foreground">School management platform</p>
             </div>
           )}
         </Link>

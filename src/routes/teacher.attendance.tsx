@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { CheckCircle2, Clock3, Users, ShieldCheck } from "lucide-react";
-import { Card, PageHeader, SectionTitle, Badge, StatCard, ProgressBar, PrimaryButton } from "@/components/app/ui-bits";
+import { Card, PageHeader, SectionTitle, Badge, ProgressBar, PrimaryButton, SecondaryButton } from "@/components/app/ui-bits";
 import { resolveTeacherClassId } from "@/lib/defaults";
 import { useClassAttendance, useCreateAttendance, useStudentsByClass } from "@/hooks/api-hooks";
 
@@ -44,20 +44,65 @@ function TeacherAttendancePage() {
         actions={<Badge tone="brand">Mark attendance</Badge>}
       />
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[repeat(2,minmax(0,1fr))_minmax(0,1.15fr)]">
-        <StatCard label="Class size" value={String(todaysRows.length)} delta="Today" icon={Users} sparkline={[18, 18, 19, 19, 20, 20, 21]} caption="The class roster for the selected session." />
-        <StatCard label="Present" value={String(presentCount)} delta="Selected" deltaTone="positive" icon={CheckCircle2} sparkline={[13, 14, 15, 16, 17, 18, 18]} caption="Most students are currently marked present." />
-        <Card className="p-5 md:col-span-2 xl:col-span-1">
-          <SectionTitle action={<Badge tone="brand">Mark once</Badge>} description="Set the date, mark the row, and save in one pass to keep the workflow clean.">
+      <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="brand">Mark once</Badge>} description="Keep attendance fast: mark, review, and save in a single pass.">
             Marking flow
           </SectionTitle>
-          <div className="space-y-3">
-            <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
-              Use the date picker above to mark the correct session.
+          <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-3">
+              <div className="rounded-2xl border border-border/70 bg-secondary/25 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Class size</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{todaysRows.length} students on the roster</p>
+                  </div>
+                  <Badge tone="brand">Today</Badge>
+                </div>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <div className="rounded-2xl border border-border/70 p-4 text-center">
+                  <p className="text-2xl font-bold text-foreground">{presentCount}</p>
+                  <p className="text-xs text-muted-foreground">Present</p>
+                </div>
+                <div className="rounded-2xl border border-border/70 p-4 text-center">
+                  <p className="text-2xl font-bold text-foreground">{absentCount}</p>
+                  <p className="text-xs text-muted-foreground">Absent</p>
+                </div>
+              </div>
             </div>
-            <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Quick tip</p>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">Save after the whole class is marked so the audit trail stays consistent.</p>
+            <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
+              <p className="text-sm font-semibold text-foreground">Quick tools</p>
+              <div className="grid gap-2">
+                <PrimaryButton type="button" onClick={submitAttendance} disabled={markMutation.isPending}>Save attendance</PrimaryButton>
+                <SecondaryButton type="button">Send parent note</SecondaryButton>
+              </div>
+              <p className="text-sm leading-6 text-muted-foreground">Use the date picker above for the correct session, then save once after the full class is marked.</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <SectionTitle action={<Badge tone="success">Snapshot</Badge>} description="A short read on how today’s marking is going.">
+            Session summary
+          </SectionTitle>
+          <div className="space-y-4">
+            <div>
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <span className="text-foreground">Present</span>
+                <span className="text-muted-foreground">{presentCount}</span>
+              </div>
+              <ProgressBar value={todaysRows.length ? (presentCount / todaysRows.length) * 100 : 0} tone="success" />
+            </div>
+            <div>
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <span className="text-foreground">Absent</span>
+                <span className="text-muted-foreground">{absentCount}</span>
+              </div>
+              <ProgressBar value={todaysRows.length ? (absentCount / todaysRows.length) * 100 : 0} tone="warning" />
+            </div>
+            <div className="rounded-2xl border border-border/70 bg-secondary/25 p-4 text-sm leading-6 text-muted-foreground">
+              Start with any absent student, then use the same flow for the rest of the class so the audit trail stays consistent.
             </div>
           </div>
         </Card>

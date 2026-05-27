@@ -26,7 +26,7 @@ function TeacherDashboardPage() {
       <PageHeader
         eyebrow="Teacher workspace"
         title="Teacher Dashboard"
-        subtitle="A focused teaching command center for class planning, attendance, grading, and fast interventions."
+        subtitle="A focused teaching workspace for class planning, attendance, grading, and follow-up."
         actions={
           <>
             <Badge tone="brand"><Sparkles className="mr-1 inline size-3" />AI grading helper</Badge>
@@ -38,8 +38,8 @@ function TeacherDashboardPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Now</Badge>} description="The day is clearer when you see the class flow, not another metric wall.">
-            Classroom board
+          <SectionTitle action={<Badge tone="brand">Now</Badge>} description="See today’s teaching schedule and next steps at a glance.">
+            Daily schedule
           </SectionTitle>
           <div className="space-y-3">
             {schedule.map((item, index) => (
@@ -70,8 +70,8 @@ function TeacherDashboardPage() {
         </Card>
 
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="warning">Work queue</Badge>} description="The useful part of the page is what you can do next.">
-            Teaching tools
+          <SectionTitle action={<Badge tone="warning">Actions</Badge>} description="The most common classroom actions are available here.">
+            Teaching actions
           </SectionTitle>
           <div className="space-y-3">
             <div className="rounded-2xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
@@ -95,8 +95,8 @@ function TeacherDashboardPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Lesson flow</Badge>} description="A classroom should feel like a sequence of actions, not a dashboard duplicate.">
-            Teaching schedule
+          <SectionTitle action={<Badge tone="brand">Lesson flow</Badge>} description="A teaching schedule that helps you prepare for the next class.">
+            Today’s schedule
           </SectionTitle>
           <div className="space-y-3">
             {schedule.map((item, index) => (
@@ -141,7 +141,7 @@ function TeacherDashboardPage() {
           </Card>
 
           <Card className="p-5">
-            <SectionTitle action={<Badge tone="brand">Support</Badge>}>Follow-up tools</SectionTitle>
+            <SectionTitle action={<Badge tone="brand">Support</Badge>}>Follow-up actions</SectionTitle>
             <div className="space-y-3">
               {[
                 { title: "Open class notes", detail: "Pull up slides, resources, and board notes for the next lesson." },

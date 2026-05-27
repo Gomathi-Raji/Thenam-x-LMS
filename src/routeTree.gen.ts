@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as StudentRouteImport } from './routes/student'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -27,6 +28,10 @@ import { Route as TeacherAssignmentsRouteImport } from './routes/teacher.assignm
 import { Route as StudentSubjectsRouteImport } from './routes/student.subjects'
 import { Route as StudentAttendanceRouteImport } from './routes/student.attendance'
 import { Route as StudentAssignmentsRouteImport } from './routes/student.assignments'
+import { Route as ProfileWorkspaceRouteImport } from './routes/profile.workspace'
+import { Route as ProfilePreferencesRouteImport } from './routes/profile.preferences'
+import { Route as ProfileActivityRouteImport } from './routes/profile.activity'
+import { Route as ProfileAccountRouteImport } from './routes/profile.account'
 import { Route as ParentNotificationsRouteImport } from './routes/parent.notifications'
 import { Route as ParentAttendanceRouteImport } from './routes/parent.attendance'
 import { Route as AdminTimetableRouteImport } from './routes/admin.timetable'
@@ -42,6 +47,11 @@ const TeacherRoute = TeacherRouteImport.update({
 const StudentRoute = StudentRouteImport.update({
   id: '/student',
   path: '/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ParentRoute = ParentRouteImport.update({
@@ -124,6 +134,26 @@ const StudentAssignmentsRoute = StudentAssignmentsRouteImport.update({
   path: '/assignments',
   getParentRoute: () => StudentRoute,
 } as any)
+const ProfileWorkspaceRoute = ProfileWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfilePreferencesRoute = ProfilePreferencesRouteImport.update({
+  id: '/preferences',
+  path: '/preferences',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileActivityRoute = ProfileActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileAccountRoute = ProfileAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => ProfileRoute,
+} as any)
 const ParentNotificationsRoute = ParentNotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
@@ -161,6 +191,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/parent': typeof ParentRouteWithChildren
+  '/profile': typeof ProfileRouteWithChildren
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/accounts/transactions': typeof AccountsTransactionsRoute
@@ -169,6 +200,10 @@ export interface FileRoutesByFullPath {
   '/admin/timetable': typeof AdminTimetableRoute
   '/parent/attendance': typeof ParentAttendanceRoute
   '/parent/notifications': typeof ParentNotificationsRoute
+  '/profile/account': typeof ProfileAccountRoute
+  '/profile/activity': typeof ProfileActivityRoute
+  '/profile/preferences': typeof ProfilePreferencesRoute
+  '/profile/workspace': typeof ProfileWorkspaceRoute
   '/student/assignments': typeof StudentAssignmentsRoute
   '/student/attendance': typeof StudentAttendanceRoute
   '/student/subjects': typeof StudentSubjectsRoute
@@ -184,12 +219,17 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/accounts/transactions': typeof AccountsTransactionsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/timetable': typeof AdminTimetableRoute
   '/parent/attendance': typeof ParentAttendanceRoute
   '/parent/notifications': typeof ParentNotificationsRoute
+  '/profile/account': typeof ProfileAccountRoute
+  '/profile/activity': typeof ProfileActivityRoute
+  '/profile/preferences': typeof ProfilePreferencesRoute
+  '/profile/workspace': typeof ProfileWorkspaceRoute
   '/student/assignments': typeof StudentAssignmentsRoute
   '/student/attendance': typeof StudentAttendanceRoute
   '/student/subjects': typeof StudentSubjectsRoute
@@ -209,6 +249,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/parent': typeof ParentRouteWithChildren
+  '/profile': typeof ProfileRouteWithChildren
   '/student': typeof StudentRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/accounts/transactions': typeof AccountsTransactionsRoute
@@ -217,6 +258,10 @@ export interface FileRoutesById {
   '/admin/timetable': typeof AdminTimetableRoute
   '/parent/attendance': typeof ParentAttendanceRoute
   '/parent/notifications': typeof ParentNotificationsRoute
+  '/profile/account': typeof ProfileAccountRoute
+  '/profile/activity': typeof ProfileActivityRoute
+  '/profile/preferences': typeof ProfilePreferencesRoute
+  '/profile/workspace': typeof ProfileWorkspaceRoute
   '/student/assignments': typeof StudentAssignmentsRoute
   '/student/attendance': typeof StudentAttendanceRoute
   '/student/subjects': typeof StudentSubjectsRoute
@@ -237,6 +282,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assistant'
     | '/parent'
+    | '/profile'
     | '/student'
     | '/teacher'
     | '/accounts/transactions'
@@ -245,6 +291,10 @@ export interface FileRouteTypes {
     | '/admin/timetable'
     | '/parent/attendance'
     | '/parent/notifications'
+    | '/profile/account'
+    | '/profile/activity'
+    | '/profile/preferences'
+    | '/profile/workspace'
     | '/student/assignments'
     | '/student/attendance'
     | '/student/subjects'
@@ -260,12 +310,17 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/assistant'
+    | '/profile'
     | '/accounts/transactions'
     | '/admin/staff'
     | '/admin/students'
     | '/admin/timetable'
     | '/parent/attendance'
     | '/parent/notifications'
+    | '/profile/account'
+    | '/profile/activity'
+    | '/profile/preferences'
+    | '/profile/workspace'
     | '/student/assignments'
     | '/student/attendance'
     | '/student/subjects'
@@ -284,6 +339,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assistant'
     | '/parent'
+    | '/profile'
     | '/student'
     | '/teacher'
     | '/accounts/transactions'
@@ -292,6 +348,10 @@ export interface FileRouteTypes {
     | '/admin/timetable'
     | '/parent/attendance'
     | '/parent/notifications'
+    | '/profile/account'
+    | '/profile/activity'
+    | '/profile/preferences'
+    | '/profile/workspace'
     | '/student/assignments'
     | '/student/attendance'
     | '/student/subjects'
@@ -311,6 +371,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AssistantRoute: typeof AssistantRoute
   ParentRoute: typeof ParentRouteWithChildren
+  ProfileRoute: typeof ProfileRouteWithChildren
   StudentRoute: typeof StudentRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
 }
@@ -329,6 +390,13 @@ declare module '@tanstack/react-router' {
       path: '/student'
       fullPath: '/student'
       preLoaderRoute: typeof StudentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/parent': {
@@ -443,6 +511,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentAssignmentsRouteImport
       parentRoute: typeof StudentRoute
     }
+    '/profile/workspace': {
+      id: '/profile/workspace'
+      path: '/workspace'
+      fullPath: '/profile/workspace'
+      preLoaderRoute: typeof ProfileWorkspaceRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/preferences': {
+      id: '/profile/preferences'
+      path: '/preferences'
+      fullPath: '/profile/preferences'
+      preLoaderRoute: typeof ProfilePreferencesRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/activity': {
+      id: '/profile/activity'
+      path: '/activity'
+      fullPath: '/profile/activity'
+      preLoaderRoute: typeof ProfileActivityRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/account': {
+      id: '/profile/account'
+      path: '/account'
+      fullPath: '/profile/account'
+      preLoaderRoute: typeof ProfileAccountRouteImport
+      parentRoute: typeof ProfileRoute
+    }
     '/parent/notifications': {
       id: '/parent/notifications'
       path: '/notifications'
@@ -533,6 +629,23 @@ const ParentRouteChildren: ParentRouteChildren = {
 const ParentRouteWithChildren =
   ParentRoute._addFileChildren(ParentRouteChildren)
 
+interface ProfileRouteChildren {
+  ProfileAccountRoute: typeof ProfileAccountRoute
+  ProfileActivityRoute: typeof ProfileActivityRoute
+  ProfilePreferencesRoute: typeof ProfilePreferencesRoute
+  ProfileWorkspaceRoute: typeof ProfileWorkspaceRoute
+}
+
+const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileAccountRoute: ProfileAccountRoute,
+  ProfileActivityRoute: ProfileActivityRoute,
+  ProfilePreferencesRoute: ProfilePreferencesRoute,
+  ProfileWorkspaceRoute: ProfileWorkspaceRoute,
+}
+
+const ProfileRouteWithChildren =
+  ProfileRoute._addFileChildren(ProfileRouteChildren)
+
 interface StudentRouteChildren {
   StudentAssignmentsRoute: typeof StudentAssignmentsRoute
   StudentAttendanceRoute: typeof StudentAttendanceRoute
@@ -573,6 +686,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AssistantRoute: AssistantRoute,
   ParentRoute: ParentRouteWithChildren,
+  ProfileRoute: ProfileRouteWithChildren,
   StudentRoute: StudentRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,
 }

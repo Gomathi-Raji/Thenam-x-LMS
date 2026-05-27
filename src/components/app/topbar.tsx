@@ -18,6 +18,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useRole, ROLES, type Role } from "./role-context";
+import { useProfile } from "@/hooks/api-hooks";
+import { logout } from "@/lib/auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,18 +58,21 @@ const NOTIFICATIONS = [
 export function TopBar({ onMenu }: { onMenu: () => void }) {
   const { role, setRole, current } = useRole();
   const navigate = useNavigate();
+  const { data: profile } = useProfile(role);
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const displayName = profile?.display_name ?? current.person;
+
   const initials = useMemo(
     () =>
-      current.person
+      displayName
         .split(" ")
         .map((part) => part[0])
         .slice(0, 2)
         .join(""),
-    [current.person],
+    [displayName],
   );
 
   useEffect(() => {
@@ -151,7 +156,7 @@ export function TopBar({ onMenu }: { onMenu: () => void }) {
                 <span className="inline-flex size-7 items-center justify-center rounded-xl bg-brand-50 text-[11px] font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
                   {role.slice(0, 1).toUpperCase()}
                 </span>
-                <span className="text-sm">{current.person}</span>
+                <span className="text-sm">{displayName}</span>
                 <ChevronDown className="size-4 text-muted-foreground" />
               </button>
             </DropdownMenuTrigger>
@@ -246,25 +251,31 @@ export function TopBar({ onMenu }: { onMenu: () => void }) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem className="rounded-xl px-3 py-2.5">
+                <DropdownMenuItem onSelect={() => navigate({ to: "/profile/account" as any })} className="rounded-xl px-3 py-2.5">
                   <UserCircle2 className="size-4" />
                   Account profile
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-xl px-3 py-2.5">
+                <DropdownMenuItem onSelect={() => navigate({ to: "/profile/workspace" as any })} className="rounded-xl px-3 py-2.5">
                   <LayoutGrid className="size-4" />
                   Workspace settings
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-xl px-3 py-2.5">
+                <DropdownMenuItem onSelect={() => navigate({ to: "/profile/preferences" as any })} className="rounded-xl px-3 py-2.5">
                   <Settings2 className="size-4" />
                   Preferences
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="rounded-xl px-3 py-2.5">
+              <DropdownMenuItem onSelect={() => navigate({ to: "/profile/activity" as any })} className="rounded-xl px-3 py-2.5">
                 <History className="size-4" />
                 Recent activity
               </DropdownMenuItem>
-              <DropdownMenuItem className="rounded-xl px-3 py-2.5 text-danger focus:text-danger">
+              <DropdownMenuItem
+                onSelect={() => {
+                  logout();
+                  navigate({ to: "/" as any });
+                }}
+                className="rounded-xl px-3 py-2.5 text-danger focus:text-danger"
+              >
                 <LogOut className="size-4" />
                 Sign out
               </DropdownMenuItem>

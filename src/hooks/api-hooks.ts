@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient, useQueries } from "@tanstack/react-query";
-import { apiGet, apiPost } from "../lib/api-client";
+import { apiGet, apiPatch, apiPost } from "../lib/api-client";
+import type { Role } from "@/components/app/role-context";
 
 export type Student = { student_id: string; class_id: string; name: string };
 export type Teacher = { teacher_id: string; name: string; subject: string };
@@ -58,6 +59,35 @@ export type ClassAnalytics = {
   teacher_assignments: number;
   subject_scores: { subject: string; averageScore: number; entries: number }[];
 };
+
+export type ProfileActivity = {
+  title: string;
+  detail: string;
+  tone: "brand" | "success" | "warning" | "neutral";
+  at: string;
+};
+
+export type ProfileRecord = {
+  role: Role;
+  display_name: string;
+  subtitle: string;
+  email: string;
+  phone: string;
+  location: string;
+  bio: string;
+  theme: "light" | "dark" | "system";
+  accent: "brand" | "emerald" | "amber" | "rose";
+  density: "comfortable" | "compact";
+  default_landing: string;
+  compact_sidebar: boolean;
+  keyboard_shortcuts: boolean;
+  email_notifications: boolean;
+  sms_notifications: boolean;
+  weekly_digest: boolean;
+  recent_activity: ProfileActivity[];
+};
+
+export type ProfileUpdateInput = Partial<Omit<ProfileRecord, "role" | "recent_activity">>;
 
 type ApiList<T> = { data: T[] };
 type ApiItem<T> = { data: T };
@@ -249,6 +279,39 @@ export function useClassAnalytics(classId: string | undefined) {
 export function useAIChat() {
   return useMutation({
     mutationFn: (payload: AIPayload) => apiPost<AIResponse>("/ai/chat", payload),
+  });
+}
+
+export function useProfile(role: Role | undefined) {
+  return useQuery({
+    queryKey: ["profile", role],
+    queryFn: () => apiGet<ProfileRecord>(`/profile/${role}`),
+    select: (data) => data.data,
+    enabled: !!role,
+  });
+}
+
+export function useProfileActivity(role: Role | undefined) {
+  return useQuery({
+    queryKey: ["profile", role, "activity"],
+    queryFn: () => apiGet<ProfileActivity[]>(`/profile/${role}/activity`),
+    select: (data) => data.data,
+    enabled: !!role,
+  });
+}
+
+export function useUpdateProfile(role: Role | undefined) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: ProfileUpdateInput) => {
+      if (!role) throw new Error("Profile role is required.");
+      return apiPatch<ProfileRecord>(`/profile/${role}`, payload);
+    },
+    onSuccess: (profile) => {
+      queryClient.setQueryData(["profile", profile.role], profile);
+      queryClient.invalidateQueries({ queryKey: ["profile", profile.role, "activity"] });
+    },
   });
 }
 

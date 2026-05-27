@@ -38,7 +38,7 @@ export const Route = createFileRoute("/admin/")({
 const alerts = [
   { title: "Fee collections are 94% on track", detail: "Most sections are above target for this term.", tone: "success" as const },
   { title: "Attendance dip in Grade 10-B", detail: "A one-click intervention can be sent to teachers and parents.", tone: "warning" as const },
-  { title: "2 staff profiles need review", detail: "Workload and designation updates pending approval.", tone: "brand" as const },
+  { title: "2 staff profiles need review", detail: "Role and timetable updates are pending approval.", tone: "brand" as const },
 ];
 
 const activity = [
@@ -59,9 +59,9 @@ function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Institution command center"
+        eyebrow="Institution overview"
         title="Admin Dashboard"
-        subtitle="A premium operational overview for school leadership, combining attendance, academics, finance, and alerts in one calm workspace."
+        subtitle="A clear leadership overview that brings attendance, academics, finance, and alerts together in one workspace."
         actions={
           <>
             <Badge tone="success"><BellRing className="mr-1 inline size-3" />Live sync</Badge>
@@ -73,15 +73,15 @@ function AdminDashboardPage() {
 
       <div className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="warning">Needs attention</Badge>} description="Use this queue to decide, delegate, or broadcast without hunting through summary cards.">
-            Leadership queue
+          <SectionTitle action={<Badge tone="warning">Needs attention</Badge>} description="Use this list to review and approve the most important operational items first.">
+            Priority actions
           </SectionTitle>
           <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="space-y-3">
               {[
-                { title: "Review attendance dips in Grade 10-B", note: "Create a teacher follow-up and parent alert." },
-                { title: "Approve the fee recovery batch", note: "Send once the finance lead signs off." },
-                { title: "Open the staff workload board", note: "Check profiles needing designation updates." },
+                { title: "Review attendance dips in Grade 10-B", note: "Create a teacher follow-up and parent update." },
+                { title: "Approve the fee recovery batch", note: "Release once the finance lead signs off." },
+                { title: "Review staff profile updates", note: "Check records needing designation changes." },
               ].map((item) => (
                 <div key={item.title} className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
                   <p className="font-medium">{item.title}</p>
@@ -108,8 +108,8 @@ function AdminDashboardPage() {
         </Card>
 
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Today</Badge>} description="The next 24 hours should be clear without relying on KPI noise.">
-            Operational pulse
+          <SectionTitle action={<Badge tone="brand">Today</Badge>} description="A concise view of the day’s priorities and approvals.">
+            Daily overview
           </SectionTitle>
           <div className="space-y-3">
             <div className="rounded-2xl border border-border/70 bg-secondary/25 px-4 py-3 text-sm text-foreground">
@@ -138,10 +138,10 @@ function AdminDashboardPage() {
       <div className="grid gap-6 xl:grid-cols-[1.65fr_1fr]">
         <Card>
           <SectionTitle
-            description="Weekly institutional pulse across attendance, academics, and financial operations."
+            description="Weekly overview across attendance, academics, and financial operations."
             action={<Badge tone="brand">Last 7 days</Badge>}
           >
-            Institutional Pulse
+            Institutional Overview
           </SectionTitle>
           <div className="h-[340px] px-2 py-4 md:px-4">
             <ResponsiveContainer>

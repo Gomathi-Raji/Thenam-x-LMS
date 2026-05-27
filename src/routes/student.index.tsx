@@ -20,7 +20,7 @@ function StudentDashboardPage() {
       <PageHeader
         eyebrow="Student learning hub"
         title="Student Dashboard"
-        subtitle="A motivating workspace that surfaces progress, deadlines, habits, and AI study guidance without feeling noisy or childish."
+        subtitle="A focused learning workspace that surfaces progress, deadlines, study habits, and AI support."
         actions={
           <>
             <Badge tone="success"><Flame className="mr-1 inline size-3" />7 day streak</Badge>
@@ -32,8 +32,8 @@ function StudentDashboardPage() {
 
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="brand">Today</Badge>} description="See what to do next without scanning a wall of stats.">
-            Study board
+          <SectionTitle action={<Badge tone="brand">Today</Badge>} description="See what to complete next without scanning a wall of metrics.">
+            Today’s tasks
           </SectionTitle>
           <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="space-y-3">
@@ -59,7 +59,7 @@ function StudentDashboardPage() {
               ))}
             </div>
             <div className="space-y-3 rounded-3xl border border-border/70 bg-brand-50/50 p-4 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Quick study tools</p>
+              <p className="text-sm font-semibold text-foreground">Study tools</p>
               <div className="space-y-2 text-sm leading-6 text-muted-foreground">
                 <p className="flex items-center gap-2"><CalendarClock className="size-4 text-brand-600" />Open your timetable and jump to the next class.</p>
                 <p className="flex items-center gap-2"><CheckCircle2 className="size-4 text-success-600" />Check off the assignment you can finish in 20 minutes.</p>
@@ -74,8 +74,8 @@ function StudentDashboardPage() {
         </Card>
 
         <Card className="p-5">
-          <SectionTitle action={<Badge tone="success">Momentum</Badge>} description="This is your weekly direction, not a generic KPI dump.">
-            Learning rhythm
+          <SectionTitle action={<Badge tone="success">Momentum</Badge>} description="A weekly overview of progress and study habits.">
+            Weekly overview
           </SectionTitle>
           <div className="space-y-4">
             <div className="rounded-2xl border border-border/70 bg-secondary/25 p-4">
@@ -87,7 +87,7 @@ function StudentDashboardPage() {
               </ul>
             </div>
             <div className="rounded-2xl border border-border/70 bg-brand-50/70 p-4 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Focus streak</p>
+              <p className="text-sm font-semibold text-foreground">Study consistency</p>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">Your consistency is strongest when you study in short blocks before dinner. Keep that pattern for the next three days.</p>
             </div>
             <div className="rounded-2xl border border-border/70 p-4">

@@ -1,6 +1,6 @@
 import { getAuthToken, clearAuth } from "./auth";
 
-const DEFAULT_BASE_URL = "http://localhost:4000/api";
+const DEFAULT_BASE_URL = "/api";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE_URL;
 
 export class ApiError extends Error {
@@ -60,4 +60,8 @@ export function apiPost<T>(path: string, body: unknown) {
 
 export function apiPut<T>(path: string, body: unknown) {
   return apiRequest<T>(path, { method: "PUT", body });
+}
+
+export function apiPatch<T>(path: string, body: unknown) {
+  return apiRequest<T>(path, { method: "PATCH", body });
 }

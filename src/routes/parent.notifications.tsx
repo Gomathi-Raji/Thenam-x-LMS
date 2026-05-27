@@ -20,7 +20,7 @@ function ParentNotificationsPage() {
       <PageHeader
         eyebrow="Parent notifications"
         title="Notifications"
-        subtitle={`Alerts for ${studentId} with clearer severity hints and a calmer, easier-to-scan presentation.`}
+        subtitle={`Alerts for ${studentId} in a calm, easy-to-scan layout.`}
         actions={<Badge tone="brand">{items.length} alerts</Badge>}
       />
 
@@ -28,7 +28,7 @@ function ParentNotificationsPage() {
         <StatCard label="Alerts" value={String(items.length)} delta="All types" icon={BellRing} sparkline={[1, 2, 2, 3, 3, 4, 4]} caption="Current parent-facing alerts in the inbox." />
         <StatCard label="Unseen" value={String(items.filter((item) => !item.read).length)} delta="Unread" deltaTone="negative" icon={Sparkles} sparkline={[1, 1, 2, 2, 2, 2, 2]} caption="Unread notifications need a quick glance." />
         <Card className="p-5 md:col-span-2 xl:col-span-1">
-          <SectionTitle action={<Badge tone="brand">Priority</Badge>} description="Scan top-down: urgent first, then unread, then everything else.">
+            <SectionTitle action={<Badge tone="brand">Priority</Badge>} description="Review urgent items first, then unread items, then the rest.">
             Inbox filters
           </SectionTitle>
           <div className="space-y-3">
@@ -36,7 +36,7 @@ function ParentNotificationsPage() {
               Start with unread alerts that mention attendance, fees, or meetings.
             </div>
             <div className="rounded-2xl border border-border/70 bg-brand-50/70 px-4 py-3 dark:bg-brand-500/10">
-              <p className="text-sm font-semibold text-foreground">Parent tip</p>
+              <p className="text-sm font-semibold text-foreground">Guidance</p>
               <p className="mt-1 text-sm leading-6 text-muted-foreground">Reply to the teacher directly when an alert needs clarification.</p>
             </div>
           </div>
@@ -44,7 +44,7 @@ function ParentNotificationsPage() {
       </div>
 
       <Card>
-        <SectionTitle action={<Badge tone="brand">Inbox</Badge>} description="A list view that feels more intentional and easier for parents to read.">
+        <SectionTitle action={<Badge tone="brand">Inbox</Badge>} description="A clear list view designed for quick review by parents.">
           Latest alerts
         </SectionTitle>
         <div className="space-y-3">

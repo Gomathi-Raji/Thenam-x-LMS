@@ -1,8 +1,13 @@
-import { login as loginService, logout as logoutService, type AuthState } from "@/lib/auth";
+import { useEffect, useState } from "react";
+import { getAuth, login as loginService, logout as logoutService, subscribeAuth, type AuthState } from "@/lib/auth";
 
 export function useAuth() {
+  const [auth, setAuth] = useState<AuthState | null>(() => getAuth());
+
+  useEffect(() => subscribeAuth(() => setAuth(getAuth())), []);
+
   return {
-    auth: null as AuthState | null,
+    auth,
     login: loginService,
     logout: logoutService,
   };
