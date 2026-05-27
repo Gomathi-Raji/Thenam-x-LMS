@@ -48,6 +48,7 @@ const NAV: Record<Role, { section: string; items: Item[] }[]> = {
         { to: "/admin/staff", label: "Teaching Staff", icon: Users, note: "Directory" },
         { to: "/admin/students", label: "Student Directory", icon: GraduationCap, note: "Search" },
         { to: "/admin/timetable", label: "Timetable", icon: CalendarDays, note: "Schedule" },
+        { to: "/admin/uploads", label: "Upload Module", icon: ClipboardCheck, note: "Docs" },
         { to: "/accounts", label: "Finance", icon: Wallet, note: "Ledger" },
       ],
     },

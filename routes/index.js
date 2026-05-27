@@ -13,6 +13,7 @@ import profileRoutes from "./profileRoutes.js";
 import studentRoutes from "./studentRoutes.js";
 import teacherRoutes from "./teacherRoutes.js";
 import timetableRoutes from "./timetableRoutes.js";
+import uploadCenterRoutes from "./uploadCenterRoutes.js";
 
 const apiRouter = express.Router();
 
@@ -29,5 +30,6 @@ apiRouter.use("/timetable", timetableRoutes);
 apiRouter.use("/notifications", notificationRoutes);
 apiRouter.use("/analytics", analyticsRoutes);
 apiRouter.use("/ai", aiRoutes);
+apiRouter.use("/upload-center", uploadCenterRoutes);
 
 export default apiRouter;
